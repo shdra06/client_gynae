@@ -262,47 +262,58 @@ function _render(container, apptId) {
                   </div>
                 </div>
 
-                <!-- Lab Reports / Tests Column (40%) -->
+                <!-- Lab Tests Column (40%) -->
                 <div style="width:40%; display:flex; flex-direction:column; min-height:0; background:#F4F6FC; padding:12px; box-sizing:border-box; border-left:1px solid #EAECF4;">
-                  <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:8px;">
+                  
+                  <!-- HEADER -->
+                  <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:8px;flex-shrink:0;">
                     <div style="display:flex;align-items:center;gap:6px;">
                       <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#6366F1" stroke-width="2"><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/><rect x="8" y="2" width="8" height="4" rx="1" ry="1"/></svg>
                       <span style="font-size:0.74rem;font-weight:700;text-transform:uppercase;letter-spacing:0.6px;color:#475569;">Lab Tests</span>
                     </div>
                     <div style="display:flex;align-items:center;gap:5px;">
-                      ${rxState.tests.length ? '<span id="labTestCountBadge" style="font-size:0.62rem;font-weight:700;padding:2px 8px;background:#EEF2FF;color:#4338CA;border-radius:99px;">' + rxState.tests.length + ' Selected</span>' : ''}
+                      ${rxState.tests.length ? '<span id="labTestCountBadge" style="font-size:0.62rem;font-weight:700;padding:2px 8px;background:#EEF2FF;color:#4338CA;border-radius:99px;">' + rxState.tests.length + ' Selected</span>' : '<span id="labTestCountBadge" style="display:none;font-size:0.62rem;font-weight:700;padding:2px 8px;background:#EEF2FF;color:#4338CA;border-radius:99px;"></span>'}
                       <div style="position:relative;">
-                        <button id="testPanelBtn" style="width:24px;height:24px;border-radius:6px;border:1.5px solid #C7D2FE;background:#EEF2FF;color:#4338CA;font-size:0.85rem;font-weight:700;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all 0.12s;" title="Test Panel Templates"
-                          onmouseover="this.style.background='#C7D2FE'" onmouseout="this.style.background='#EEF2FF'">+</button>
-                        <div id="testPanelDropdown" style="display:none;position:fixed;z-index:100;width:240px;background:#fff;border:1px solid #E2E8F0;border-radius:10px;box-shadow:0 8px 24px rgba(0,0,0,0.12);overflow:hidden;">
-                          <div style="padding:8px 12px;border-bottom:1px solid #F1F5F9;font-size:0.62rem;font-weight:700;text-transform:uppercase;letter-spacing:0.6px;color:#94A3B8;">Test Panel Templates</div>
+                        <button id="testPanelBtn" style="display:flex;align-items:center;gap:4px;padding:4px 10px;border:1.5px solid #C7D2FE;background:#EEF2FF;color:#4338CA;border-radius:6px;font-size:0.62rem;font-weight:700;cursor:pointer;transition:all 0.12s;white-space:nowrap;"
+                          onmouseover="this.style.background='#C7D2FE'" onmouseout="this.style.background='#EEF2FF'">
+                          <span style="font-size:0.75rem;line-height:1;">+</span> Panel
+                        </button>
+                        <div id="testPanelDropdown" style="display:none;position:absolute;top:calc(100% + 4px);right:0;z-index:100;width:220px;background:#fff;border:1px solid #E2E8F0;border-radius:8px;box-shadow:0 8px 24px rgba(0,0,0,0.12);overflow:hidden;">
+                          <div style="padding:7px 12px;border-bottom:1px solid #F1F5F9;font-size:0.55rem;font-weight:700;text-transform:uppercase;letter-spacing:0.6px;color:#94A3B8;">Quick Panels</div>
                           ${testPanels.map(p => `
-                            <div class="test-panel-option" data-panel-id="${p.id}"
-                              style="padding:8px 12px;cursor:pointer;border-bottom:1px solid #F8FAFC;display:flex;align-items:center;gap:8px;transition:background 0.1s;"
+                            <div class="test-panel-card" data-panel-id="${p.id}"
+                              style="padding:7px 12px;cursor:pointer;border-bottom:1px solid #F8FAFC;display:flex;align-items:center;gap:8px;transition:background 0.1s;"
                               onmouseover="this.style.background='#F8FAFF'" onmouseout="this.style.background=''">
-                              <span style="font-size:1rem;">${p.icon}</span>
-                              <div>
-                                <div style="font-size:0.74rem;font-weight:600;color:#1B2B45;">${p.name}</div>
-                                <div style="font-size:0.58rem;color:#94A3B8;">${p.tests.length} tests</div>
+                              <span style="font-size:0.88rem;">${p.icon}</span>
+                              <div style="flex:1;min-width:0;">
+                                <div style="font-size:0.72rem;font-weight:600;color:#1B2B45;">${p.name}</div>
+                                <div style="font-size:0.55rem;color:#94A3B8;">${p.tests.length} tests</div>
                               </div>
                             </div>`).join('')}
                         </div>
                       </div>
                     </div>
                   </div>
-                  
-                  <div style="position:relative; margin-bottom:10px;">
-                    <div style="display:flex;align-items:center;gap:7px;background:#fff;border:1px solid #E2E8F0;border-radius:6px;padding:6px 10px;"
-                      onfocusin="this.style.borderColor='#6366F1';this.style.background='#fff'" onfocusout="this.style.borderColor='#E2E8F0';this.style.background='#fff'">
-                      <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#94A3B8" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
-                      <input type="text" id="testSearch" placeholder="Search &amp; add tests (e.g. CBC, USG)..." autocomplete="off"
-                        style="border:none;background:transparent;outline:none;font-size:0.74rem;color:#1B2B45;flex:1;font-family:inherit;">
-                    </div>
-                    <div id="testResults" style="position:absolute;top:calc(100%+4px);left:0;right:0;z-index:30;display:none;background:#fff;border:1px solid #E2E8F0;border-radius:8px;box-shadow:0 8px 20px rgba(0,0,0,0.1);overflow:hidden;max-height:180px;overflow-y:auto;"></div>
-                  </div>
 
-                  <div id="selectedTestTags" style="display:flex;flex-wrap:wrap;gap:5px;align-content:flex-start;flex:1;overflow-y:auto;">
-                    ${rxState.tests.map(t => testTag(t)).join('')}
+                  <!-- SECTION 2: Selected Tests Preview -->
+                  <div style="flex:1;display:flex;flex-direction:column;min-height:0;background:#fff;border:1px solid #E2E8F0;border-radius:8px;padding:8px;">
+                    <div style="font-size:0.55rem;font-weight:700;text-transform:uppercase;letter-spacing:0.7px;color:#94A3B8;margin-bottom:5px;flex-shrink:0;">Selected Tests</div>
+                    
+                    <!-- Search to manually add -->
+                    <div style="position:relative;margin-bottom:6px;flex-shrink:0;">
+                      <div style="display:flex;align-items:center;gap:7px;background:#F8FAFC;border:1px solid #E2E8F0;border-radius:6px;padding:5px 8px;"
+                        onfocusin="this.style.borderColor='#6366F1';this.style.background='#fff'" onfocusout="this.style.borderColor='#E2E8F0';this.style.background='#F8FAFC'">
+                        <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#94A3B8" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+                        <input type="text" id="testSearch" placeholder="Add test (e.g. CBC, USG)..." autocomplete="off"
+                          style="border:none;background:transparent;outline:none;font-size:0.68rem;color:#1B2B45;flex:1;font-family:inherit;">
+                      </div>
+                      <div id="testResults" style="position:absolute;top:calc(100% + 3px);left:0;right:0;z-index:30;display:none;background:#fff;border:1px solid #E2E8F0;border-radius:8px;box-shadow:0 8px 20px rgba(0,0,0,0.1);overflow:hidden;max-height:160px;overflow-y:auto;"></div>
+                    </div>
+
+                    <!-- Tags preview -->
+                    <div id="selectedTestTags" style="display:flex;flex-wrap:wrap;gap:4px;align-content:flex-start;flex:1;overflow-y:auto;">
+                      ${rxState.tests.length ? rxState.tests.map(t => testTag(t)).join('') : '<div style="width:100%;text-align:center;padding:14px 0;font-size:0.65rem;color:#94A3B8;font-style:italic;">Select a panel or search to add tests</div>'}
+                    </div>
                   </div>
                 </div>
 
@@ -414,8 +425,7 @@ function _render(container, apptId) {
   setupTabs(container, apptId, appt, patient, g, lmpWeeks, reports, prevRx, timeline);
   setupMedicineSearch(container);
   setupTemplates(container);
-  setupTestSearch(container);
-  setupTestPanelDropdown(container);
+  setupLabTests(container);
   setupFollowUp(container);
   setupReprescribe(container, prevRx);
   setupApproval(container, appt);
@@ -680,54 +690,88 @@ function setupTemplates(container) {
   });
 }
 
-function setupTestSearch(container) {
-  const input  = container.querySelector('#testSearch');
+function setupLabTests(container) {
+  const input = container.querySelector('#testSearch');
   const results = container.querySelector('#testResults');
   const tagsEl = container.querySelector('#selectedTestTags');
   if (!input || !results || !tagsEl) return;
-  const allItems = [
-    ...testPanels.map(p => ({ label: p.icon + ' ' + p.name, sub: 'Panel · ' + p.tests.length + ' tests', value: p.name, isPanel: true, panel: p })),
-    ...commonTests.map(t => ({ label: t, sub: 'Individual test', value: t, isPanel: false }))
-  ];
+
+  // Only individual tests in search (panels are in the grid)
+  const searchItems = commonTests.map(t => ({ label: t, value: t }));
+
   function renderTags() {
-    tagsEl.innerHTML = rxState.tests.map(t => testTag(t)).join('');
-    tagsEl.querySelectorAll('.remove-test-tag').forEach(btn => {
-      btn.addEventListener('click', () => { rxState.tests = rxState.tests.filter(t => t !== btn.dataset.test); renderTags(); });
-    });
+    if (rxState.tests.length) {
+      tagsEl.innerHTML = rxState.tests.map(t => testTag(t)).join('');
+      tagsEl.querySelectorAll('.remove-test-tag').forEach(btn => {
+        btn.addEventListener('click', () => {
+          rxState.tests = rxState.tests.filter(t => t !== btn.dataset.test);
+          renderTags();
+        });
+      });
+    } else {
+      tagsEl.innerHTML = '<div style="width:100%;text-align:center;padding:14px 0;font-size:0.65rem;color:#94A3B8;font-style:italic;">Select a panel or search to add tests</div>';
+    }
     const badge = container.querySelector('#labTestCountBadge');
     if (badge) {
-      if (rxState.tests.length) {
-        badge.style.display = 'inline-block';
-        badge.textContent = rxState.tests.length + ' Selected';
-      } else {
-        badge.style.display = 'none';
-      }
+      badge.style.display = rxState.tests.length ? 'inline-block' : 'none';
+      badge.textContent = rxState.tests.length + ' Selected';
     }
   }
+
+  // Panel dropdown toggle
+  const panelBtn = container.querySelector('#testPanelBtn');
+  const panelDropdown = container.querySelector('#testPanelDropdown');
+  if (panelBtn && panelDropdown) {
+    panelBtn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      panelDropdown.style.display = panelDropdown.style.display === 'none' ? 'block' : 'none';
+    });
+    document.addEventListener('click', (e) => {
+      if (!panelDropdown.contains(e.target) && e.target !== panelBtn) panelDropdown.style.display = 'none';
+    });
+    panelDropdown.querySelectorAll('.test-panel-card').forEach(card => {
+      card.addEventListener('click', (e) => {
+        e.stopPropagation();
+        const panel = testPanels.find(p => p.id === card.dataset.panelId);
+        if (!panel) return;
+        let added = 0;
+        panel.tests.forEach(t => {
+          if (!rxState.tests.includes(t)) { rxState.tests.push(t); added++; }
+        });
+        renderTags();
+        showToast(panel.icon + ' ' + panel.name + ' — ' + added + ' tests added');
+        panelDropdown.style.display = 'none';
+      });
+    });
+  }
+
+  // Search input for individual tests
   input.addEventListener('input', () => {
     const q = input.value.toLowerCase().trim();
-    const filtered = q.length === 0 ? allItems.slice(0,10) : allItems.filter(i => i.label.toLowerCase().includes(q) || i.value.toLowerCase().includes(q)).slice(0,10);
+    const filtered = q.length === 0
+      ? searchItems.slice(0, 10)
+      : searchItems.filter(i => i.label.toLowerCase().includes(q)).slice(0, 10);
     if (!filtered.length) { results.style.display = 'none'; return; }
     results.style.display = 'block';
-    results.innerHTML = filtered.map(item => `<div class="test-search-item" data-value="${item.value}" data-is-panel="${item.isPanel}"
-      style="padding:8px 12px;cursor:pointer;display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid #F1F5F9;"
-      onmouseover="this.style.background='#F8FAFC'" onmouseout="this.style.background=''">
-      <div>
-        <div style="font-size:0.78rem;font-weight:600;color:#1B2B45;">${item.label}</div>
-        <div style="font-size:0.62rem;color:#94A3B8;">${item.sub}</div>
-      </div>
-      ${item.isPanel ? '<span style="font-size:0.6rem;padding:1px 7px;background:#EEF2FF;color:#4338CA;border-radius:99px;font-weight:700;flex-shrink:0;">Panel</span>' : ''}
-    </div>`).join('');
+    results.innerHTML = filtered.map(item => {
+      const alreadyAdded = rxState.tests.includes(item.value);
+      return `<div class="test-search-item" data-value="${item.value}"
+        style="padding:7px 10px;cursor:${alreadyAdded ? 'default' : 'pointer'};display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid #F1F5F9;${alreadyAdded ? 'opacity:0.5;' : ''}"
+        ${alreadyAdded ? '' : 'onmouseover="this.style.background=\'#F8FAFC\'" onmouseout="this.style.background=\'\'"'}>
+        <span style="font-size:0.72rem;font-weight:600;color:#1B2B45;">${item.label}</span>
+        ${alreadyAdded ? '<span style="font-size:0.55rem;color:#94A3B8;">Added</span>' : '<span style="font-size:0.55rem;color:#6366F1;font-weight:600;">+ Add</span>'}
+      </div>`;
+    }).join('');
     results.querySelectorAll('.test-search-item').forEach(el => {
       el.addEventListener('click', () => {
-        if (el.dataset.isPanel === 'true') {
-          const panel = testPanels.find(p => p.name === el.dataset.value);
-          if (panel) { panel.tests.forEach(t => { if (!rxState.tests.includes(t)) rxState.tests.push(t); }); showToast('Added panel: ' + panel.name); }
-        } else {
-          const test = el.dataset.value;
-          if (!rxState.tests.includes(test)) { rxState.tests.push(test); showToast('Added: ' + test); }
+        const test = el.dataset.value;
+        if (!rxState.tests.includes(test)) {
+          rxState.tests.push(test);
+          showToast('Added: ' + test);
+          renderTags();
         }
-        renderTags(); input.value = ''; results.style.display = 'none';
+        input.value = '';
+        results.style.display = 'none';
       });
     });
   });
@@ -871,66 +915,4 @@ function setupDiagnosisDropdown(container) {
       rxState.remarks = remarksTa.value;
     });
   }
-}
-function setupTestPanelDropdown(container) {
-  const btn = container.querySelector('#testPanelBtn');
-  const dropdown = container.querySelector('#testPanelDropdown');
-  const tagsEl = container.querySelector('#selectedTestTags');
-  if (!btn || !dropdown || !tagsEl) return;
-
-  function renderTags() {
-    tagsEl.innerHTML = rxState.tests.map(t => testTag(t)).join('');
-    tagsEl.querySelectorAll('.remove-test-tag').forEach(b => {
-      b.addEventListener('click', () => {
-        rxState.tests = rxState.tests.filter(t => t !== b.dataset.test);
-        renderTags();
-        updateBadge();
-      });
-    });
-    updateBadge();
-  }
-
-  function updateBadge() {
-    const badge = container.querySelector('#labTestCountBadge');
-    if (badge) {
-      badge.style.display = rxState.tests.length ? 'inline-block' : 'none';
-      badge.textContent = rxState.tests.length + ' Selected';
-    }
-  }
-
-  function openDropdown() {
-    const rect = btn.getBoundingClientRect();
-    dropdown.style.display = 'block';
-    dropdown.style.top = (rect.bottom + 6) + 'px';
-    dropdown.style.left = Math.max(8, rect.right - 240) + 'px';
-  }
-
-  function closeDropdown() {
-    dropdown.style.display = 'none';
-  }
-
-  btn.addEventListener('click', (e) => {
-    e.stopPropagation();
-    dropdown.style.display === 'none' ? openDropdown() : closeDropdown();
-  });
-
-  dropdown.querySelectorAll('.test-panel-option').forEach(el => {
-    el.addEventListener('click', (e) => {
-      e.stopPropagation();
-      const panel = testPanels.find(p => p.id === el.dataset.panelId);
-      if (panel) {
-        let added = 0;
-        panel.tests.forEach(t => {
-          if (!rxState.tests.includes(t)) { rxState.tests.push(t); added++; }
-        });
-        renderTags();
-        showToast(panel.icon + ' ' + panel.name + ' — ' + added + ' tests added');
-      }
-      closeDropdown();
-    });
-  });
-
-  document.addEventListener('click', (e) => {
-    if (!dropdown.contains(e.target) && e.target !== btn) closeDropdown();
-  });
 }
